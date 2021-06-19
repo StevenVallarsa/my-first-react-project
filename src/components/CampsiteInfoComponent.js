@@ -5,6 +5,16 @@ export default class CampsiteInfo extends Component {
   renderCampsite(campsite) {
     return (
       <div class="col-md-5 m-1">
+        {/* Added button to clear selected campsite 
+            inline function passed through via props from
+            parent component (DirectoryComponent) */}
+        <button
+          className="btn btn-primary btn-sm"
+          style={{ position: "relative", top: 55, left: 20, zIndex: 10 }}
+          onClick={this.props.removeCampsite}
+        >
+          Clear Campsite
+        </button>
         <Card>
           <CardImg top src={campsite.image} alt={campsite.name} />
           <CardBody>
@@ -19,7 +29,7 @@ export default class CampsiteInfo extends Component {
     if (comments) {
       return (
         <div class="col-md-5 m-1">
-          <h4>Comments</h4>
+          <h4 class="pt-4">Comments</h4>
           {comments.map((comment) => {
             return (
               <p>
@@ -40,6 +50,7 @@ export default class CampsiteInfo extends Component {
       return <div></div>;
     }
   }
+
   render() {
     if (this.props.campsite) {
       return (
@@ -49,15 +60,7 @@ export default class CampsiteInfo extends Component {
         </div>
       );
     } else {
-      return (
-        <div class="row">
-          <div className="col-md-10 m-1 text-center font-weight-bold text-success">
-            <p className="p-2 text-center">
-              Select A Campsite To View Its Information
-            </p>
-          </div>
-        </div>
-      );
+      return <div></div>;
     }
   }
 }

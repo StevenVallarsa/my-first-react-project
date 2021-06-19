@@ -14,6 +14,40 @@ class Directory extends Component {
     this.setState({ selectedCampsite: campsite });
   }
 
+  // Added method to display information at top of page
+  // to let user know to click images and to scroll to
+  // bottom to view information of selected campsite
+  renderHeading(campsite) {
+    if (campsite) {
+      return (
+        <div class="row">
+          <div
+            className="col-md-10 m-1 text-center text-primary"
+            style={{ maxHeight: 40 }}
+          >
+            <p className="p-2 text-center">
+              Viewing Information About{" "}
+              <span className="font-weight-bold">{campsite.name}</span> Below
+            </p>
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <div class="row">
+          <div
+            style={{ maxHeight: 40 }}
+            className="col-md-10 m-1 text-center font-weight-bold text-primary"
+          >
+            <p className="p-2 text-center">
+              Select A Campsite To View Its Information
+            </p>
+          </div>
+        </div>
+      );
+    }
+  }
+
   render() {
     const directory = this.props.campsites.map((campsite) => {
       return (
@@ -30,19 +64,13 @@ class Directory extends Component {
 
     return (
       <div className="container">
+        {/* calls method to display header information on top of page */}
+        <div>{this.renderHeading(this.state.selectedCampsite)}</div>
         <div className="row">{directory}</div>
-        <div>
-          {this.state.selectedCampsite && (
-            <button
-              className="btn btn-info btn-sm"
-              style={{ position: "relative", top: 55, left: 20, zIndex: 10 }}
-              onClick={() => this.setState({ selectedCampsite: null })}
-            >
-              Clear Campsite
-            </button>
-          )}
-        </div>
-        <CampsiteInfo campsite={this.state.selectedCampsite} />
+        <CampsiteInfo
+          removeCampsite={() => this.setState({ selectedCampsite: null })}
+          campsite={this.state.selectedCampsite}
+        />
       </div>
     );
   }
