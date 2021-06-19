@@ -1,12 +1,6 @@
 import React, { Component } from "react";
-import {
-  Card,
-  CardImg,
-  CardImgOverlay,
-  CardText,
-  CardBody,
-  CardTitle,
-} from "reactstrap";
+import { Card, CardImg, CardImgOverlay, CardTitle } from "reactstrap";
+import CampsiteInfo from "./CampsiteInfoComponent";
 
 class Directory extends Component {
   constructor(props) {
@@ -18,21 +12,6 @@ class Directory extends Component {
 
   onCampsiteSelect(campsite) {
     this.setState({ selectedCampsite: campsite });
-  }
-
-  renderSelectedCampsite(campsite) {
-    if (campsite) {
-      return (
-        <Card>
-          <CardImg top src={campsite.image} alt={campsite.name} />
-          <CardBody>
-            <CardTitle>{campsite.name}</CardTitle>
-            <CardText>{campsite.description}</CardText>
-          </CardBody>
-        </Card>
-      );
-    }
-    return <div />;
   }
 
   render() {
@@ -52,9 +31,18 @@ class Directory extends Component {
     return (
       <div className="container">
         <div className="row">{directory}</div>
-        <div className="col-md-5 m1">
-          {this.renderSelectedCampsite(this.state.selectedCampsite)}
+        <div>
+          {this.state.selectedCampsite && (
+            <button
+              className="btn btn-info btn-sm"
+              style={{ position: "relative", top: 55, left: 20, zIndex: 10 }}
+              onClick={() => this.setState({ selectedCampsite: null })}
+            >
+              Clear Campsite
+            </button>
+          )}
         </div>
+        <CampsiteInfo campsite={this.state.selectedCampsite} />
       </div>
     );
   }
