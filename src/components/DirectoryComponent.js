@@ -8,44 +8,59 @@ class Directory extends Component {
     this.state = {
       selectedCampsite: null,
     };
+
+    // Added refs to scroll to bottom to selected campsite,
+    // and back to top when campsite deselected
+    this.topRef = React.createRef();
+    this.bottomRef = React.createRef();
   }
 
   onCampsiteSelect(campsite) {
     this.setState({ selectedCampsite: campsite });
+
+    // Needed to add this setTimeout to allow for the rendering
+    // of the CamsiteInfo, else it wouldn't work on first render
+    setTimeout(
+      () => this.bottomRef.current.scrollIntoView({ behavior: "smooth" }),
+      500
+    );
   }
 
   // Added method to display information at top of page
   // to let user know to click images and to scroll to
   // bottom to view information of selected campsite
   renderHeading(campsite) {
+    let headerLine;
     if (campsite) {
-      return (
-        <div class="row">
-          <div
-            className="col-md-10 m-1 text-center text-primary"
-            style={{ maxHeight: 40 }}
-          >
-            <p className="p-2 text-center">
-              Viewing Information About{" "}
-              <span className="font-weight-bold">{campsite.name}</span> Below
-            </p>
-          </div>
-        </div>
+      headerLine = (
+        <p className="p-2 text-center">
+          Viewing Information About{" "}
+          <span className="font-weight-bold">{campsite.name}</span> Below
+        </p>
       );
     } else {
-      return (
-        <div class="row">
-          <div
-            style={{ maxHeight: 40 }}
-            className="col-md-10 m-1 text-center font-weight-bold text-primary"
-          >
-            <p className="p-2 text-center">
-              Select A Campsite To View Its Information
-            </p>
-          </div>
-        </div>
+      headerLine = (
+        <p className="p-2 text-center">
+          Select A Campsite To View Its Information
+        </p>
       );
     }
+
+    return (
+      <div className="row">
+        <div
+          className="col-md-10 m-1 text-center text-primary"
+          style={{ maxHeight: 40 }}
+        >
+          {headerLine}
+        </div>
+      </div>
+    );
+  }
+
+  removeCampsite() {
+    this.setState({ selectedCampsite: null });
+    this.topRef.current.scrollIntoView({ behavior: "smooth" });
   }
 
   render() {
@@ -63,12 +78,14 @@ class Directory extends Component {
     });
 
     return (
-      <div className="container">
-        {/* calls method to display header information on top of page */}
+      <div className="container" ref={this.topRef}>
+        {/* Calls method to display header information on top of page */}
         <div>{this.renderHeading(this.state.selectedCampsite)}</div>
+
         <div className="row">{directory}</div>
+        <div ref={this.bottomRef}> </div>
         <CampsiteInfo
-          removeCampsite={() => this.setState({ selectedCampsite: null })}
+          removeCampsite={() => this.removeCampsite()}
           campsite={this.state.selectedCampsite}
         />
       </div>
