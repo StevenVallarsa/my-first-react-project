@@ -31,17 +31,6 @@ class Directory extends Component {
     return (
       <div className="container">
         <div className="row">{directory}</div>
-        <div>
-          {this.state.selectedCampsite && (
-            <button
-              className="btn btn-info btn-sm"
-              style={{ position: "relative", top: 55, left: 20, zIndex: 10 }}
-              onClick={() => this.setState({ selectedCampsite: null })}
-            >
-              Clear Campsite
-            </button>
-          )}
-        </div>
         <CampsiteInfo campsite={this.state.selectedCampsite} />
       </div>
     );
