@@ -5,6 +5,7 @@ import Header from "./HeaderComponent";
 import Footer from "./FooterComponent";
 import Home from "./HomeComponent";
 import Contact from "./ContactComponent";
+import About from "./AboutComponent";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { CAMPSITES } from "../shared/campsites";
 import { COMMENTS } from "../shared/comments";
@@ -37,12 +38,14 @@ class Main extends Component {
       );
     };
 
+    // parseInt() or the unary + work to convert the STRING from
+    // match.params.campsiteID into an INT
     const CampsiteWithId = ({ match }) => {
       return (
         <CampsiteInfo
           campsite={
             this.state.campsites.filter(
-              (campsite) => campsite.id === +match.params.campsiteId
+              (campsite) => campsite.id === parseInt(match.params.campsiteId)
             )[0]
           }
           comments={this.state.comments.filter(
@@ -61,6 +64,11 @@ class Main extends Component {
             exact
             path="/directory"
             render={() => <Directory campsites={this.state.campsites} />}
+          />
+          <Route
+            exact
+            path="/aboutus"
+            render={() => <About partners={this.state.partners} />}
           />
           <Route path="/directory/:campsiteId" component={CampsiteWithId} />
           <Route exact path="/contactus" component={Contact} />
