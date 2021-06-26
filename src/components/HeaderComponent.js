@@ -28,7 +28,7 @@ class Header extends Component {
       <>
         <Jumbotron fluid>
           <div className="container">
-            <div calssName="row">
+            <div className="row">
               <div className="col">
                 <h1>NuCamp</h1>
                 <h2>a better way to camp</h2>

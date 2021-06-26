@@ -38,14 +38,12 @@ class Main extends Component {
       );
     };
 
-    // parseInt() or the unary + work to convert the STRING from
-    // match.params.campsiteID into an INT
     const CampsiteWithId = ({ match }) => {
       return (
         <CampsiteInfo
           campsite={
             this.state.campsites.filter(
-              (campsite) => campsite.id === parseInt(match.params.campsiteId)
+              (campsite) => campsite.id === +match.params.campsiteId
             )[0]
           }
           comments={this.state.comments.filter(
