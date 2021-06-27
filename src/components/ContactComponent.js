@@ -8,6 +8,7 @@ import {
   Label,
   Input,
   Col,
+  FormFeedback,
 } from "reactstrap";
 import { Link } from "react-router-dom";
 
@@ -22,27 +23,80 @@ class Contact extends React.Component {
       agree: false,
       contactType: "By Phone",
       feedback: "",
+      touched: {
+        firstName: false,
+        lastName: false,
+        phoneNumber: false,
+        email: false,
+      },
     };
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleInputChange(e) {
+  validate(firstName, lastName, phoneNumber, email) {
+    const errors = {
+      firstName: "",
+      lastName: "",
+      phoneNumber: "",
+      email: "",
+    };
+
+    if (this.state.touched.firstName) {
+      if (firstName.length < 2) {
+        errors.firstName = "First name must be at least 2 characters.";
+      } else if (firstName.length > 15) {
+        errors.firstName = "First name must be 15 or less characters.";
+      }
+    }
+
+    if (this.state.touched.lastName) {
+      if (lastName.length < 2) {
+        errors.lastName = "Last name must be at least 2 characters.";
+      } else if (lastName.length > 15) {
+        errors.lastName = "Last name must be 15 or less characters.";
+      }
+    }
+
+    const regPhone = /^1?[-\(\.\\/]?\d{3}[-\)\.\\/]?[ ]?\d{3}[-\.\\/]?\d{4}$/;
+    if (this.state.touched.phoneNumber && !regPhone.test(phoneNumber)) {
+      errors.phoneNumber = "Please include your ten digit phone number.";
+    }
+
+    const regEmail = /^\w+@\w+\.\w+/;
+    if (this.state.touched.email && !regEmail.test(email)) {
+      errors.email = "Email needs to be in 'username@host.domain' format";
+    }
+
+    return errors;
+  }
+
+  handleBlur = (field) => () => {
+    this.setState({
+      touched: { ...this.state.touched, [field]: true },
+    });
+  };
+
+  handleInputChange = (e) => {
     const { name } = e.target;
     const value =
-      typeof e.target.value === "checkbox" ? e.target.checked : e.target.value;
+      e.target.type === "checkbox" ? e.target.checked : e.target.value;
 
     this.setState({
       [name]: value,
     });
-  }
+  };
 
-  handleSubmit(e) {
+  handleSubmit = (e) => {
     e.preventDefault();
     alert("Current state is: " + JSON.stringify(this.state));
-  }
+  };
 
   render() {
+    const errors = this.validate(
+      this.state.firstName,
+      this.state.lastName,
+      this.state.phoneNumber,
+      this.state.email
+    );
     return (
       <div className="container">
         <div className="row">
@@ -101,8 +155,11 @@ class Contact extends React.Component {
                     name="firstName"
                     placeholder="First Name"
                     value={this.state.firstName}
+                    invalid={errors.firstName}
+                    onBlur={this.handleBlur("firstName")}
                     onChange={this.handleInputChange}
                   />
+                  <FormFeedback>{errors.firstName}</FormFeedback>
                 </Col>
               </FormGroup>
               <FormGroup row>
@@ -116,23 +173,29 @@ class Contact extends React.Component {
                     name="lastName"
                     placeholder="Last Name"
                     value={this.state.lastName}
+                    invalid={errors.lastName}
+                    onBlur={this.handleBlur("lastName")}
                     onChange={this.handleInputChange}
                   />
+                  <FormFeedback>{errors.lastName}</FormFeedback>
                 </Col>
               </FormGroup>
               <FormGroup row>
-                <Label htmlFor="phoneNum" md={2}>
+                <Label htmlFor="phoneNumber" md={2}>
                   Phone
                 </Label>
                 <Col md={10}>
                   <Input
                     type="tel"
-                    id="phoneNum"
-                    name="phoneNum"
+                    id="phoneNumber"
+                    name="phoneNumber"
                     placeholder="Phone number"
-                    value={this.state.phoneNum}
+                    value={this.state.phoneNumber}
+                    invalid={errors.phoneNumber}
+                    onBlur={this.handleBlur("phoneNumber")}
                     onChange={this.handleInputChange}
                   />
+                  <FormFeedback>{errors.phoneNumber}</FormFeedback>
                 </Col>
               </FormGroup>
               <FormGroup row>
@@ -146,8 +209,11 @@ class Contact extends React.Component {
                     name="email"
                     placeholder="Email"
                     value={this.state.email}
+                    invalid={errors.email}
+                    onBlur={this.handleBlur("email")}
                     onChange={this.handleInputChange}
                   />
+                  <FormFeedback>{errors.email}</FormFeedback>
                 </Col>
               </FormGroup>
               <FormGroup row>
