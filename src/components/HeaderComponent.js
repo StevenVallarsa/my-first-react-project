@@ -140,7 +140,7 @@ class Header extends Component {
                 />
                 Remember me
               </FormGroup>
-              <Button type="submit" value="submit" color="primary">
+              <Button type="submit" value="submit" color="success">
                 Login
               </Button>
             </Form>
