@@ -56,7 +56,7 @@ class Contact extends React.Component {
       }
     }
 
-    const regPhone = /^1?[-\(\.\\/]?\d{3}[-\)\.\\/]?[ ]?\d{3}[-\.\\/]?\d{4}$/;
+    const regPhone = /^1? ?[-(.\\/]?\d{3}[-).\\/ ]?[ ]?\d{3}[-.\\/ ]?\d{4}$/;
     if (this.state.touched.phoneNumber && !regPhone.test(phoneNumber)) {
       errors.phoneNumber = "Please include your ten digit phone number.";
     }
