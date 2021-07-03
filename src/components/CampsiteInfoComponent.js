@@ -6,8 +6,93 @@ import {
   CardBody,
   Breadcrumb,
   BreadcrumbItem,
+  Button,
+  Label,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
 } from "reactstrap";
+import { Control, LocalForm } from "react-redux-form";
 import { Link } from "react-router-dom";
+
+class CommentForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      modalOpen: false,
+      rating: "",
+      author: "",
+      text: "",
+    };
+    this.toggle = this.toggle.bind(this);
+    // this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  toggle() {
+    this.setState((prev) => ({ modalOpen: !prev.modalOpen }));
+  }
+
+  handleSubmit = (values) => {
+    console.log(this.state.rating);
+    alert(JSON.stringify(values));
+  };
+
+  render() {
+    return (
+      <div>
+        <Button outline color="secondary" onClick={this.toggle}>
+          <i className="fa fa-pencil fa-lg"></i> Submit Comment
+        </Button>
+        <Modal isOpen={this.state.modalOpen} toggle={this.toggle}>
+          <ModalHeader toggle={this.toggle}>Submit Comment</ModalHeader>
+          <ModalBody>
+            <LocalForm onSubmit={(values) => this.handleSubmit(values)}>
+              <Label htmlFor="rating">Rating</Label>
+              <div className="form-group">
+                <Control.select
+                  model=".rating"
+                  id="rating"
+                  name="rating"
+                  className="form-control"
+                >
+                  <option value=""></option>
+                  <option value="5">5 * * * * *</option>
+                  <option value="4">4 * * * *</option>
+                  <option value="3">3 * * *</option>
+                  <option value="2">2 * *</option>
+                  <option value="1">1 *</option>
+                </Control.select>
+              </div>
+              <Label htmlFor="author">Your Name</Label>
+              <div className="form-group">
+                <Control.text
+                  model=".author"
+                  id="author"
+                  name="author"
+                  className="form-control"
+                ></Control.text>
+              </div>
+              <Label htmlFor="text">Comment</Label>
+              <div className="form-group">
+                <Control.textarea
+                  model=".text"
+                  id="text"
+                  name="text"
+                  className="form-control"
+                  rows="6"
+                ></Control.textarea>
+              </div>
+              <Button type="submit" color="primary">
+                Submit Comment
+              </Button>
+            </LocalForm>
+          </ModalBody>
+        </Modal>
+      </div>
+    );
+  }
+}
 
 function RenderCampsite({ campsite }) {
   return (
@@ -41,6 +126,7 @@ function RenderComments({ comments }) {
             </p>
           );
         })}
+        <CommentForm />
       </div>
     );
   } else {

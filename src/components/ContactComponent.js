@@ -36,7 +36,7 @@ class Contact extends React.Component {
       },
     };
   }
-
+  // Regex to handle most forms of 10 and 11 digit telephone numbers
   // const regPhone = /^1? ?[-(.\\/]?\d{3}[-).\\/ ]?[ ]?\d{3}[-.\\/ ]?\d{4}$/;
 
   handleSubmit = (values) => {
@@ -114,9 +114,11 @@ class Contact extends React.Component {
                     show="touched"
                     component="div"
                     messages={{
-                      required: "Required",
-                      minLength: "Must be at least 2 characters",
-                      maxLength: "Must be 15 characters or less",
+                      required: "Your first name is required",
+                      minLength:
+                        "Your first name must be at least 2 characters long",
+                      maxLength:
+                        "Your first name must be 15 characters or less",
                     }}
                   />
                 </Col>
@@ -144,9 +146,10 @@ class Contact extends React.Component {
                     show="touched"
                     component="div"
                     messages={{
-                      required: "Required",
-                      minLength: "Must be at least 2 characters",
-                      maxLength: "Must be 15 characters or less",
+                      required: "Your last name is required",
+                      minLength:
+                        "Your last name must be at least 2 characters long",
+                      maxLength: "Your last name must be 15 characters or less",
                     }}
                   />
                 </Col>
@@ -175,10 +178,11 @@ class Contact extends React.Component {
                     show="touched"
                     component="div"
                     messages={{
-                      required: "Required",
-                      minLength: "Must be at least 10 numbers",
-                      maxLength: "Must be 15 numbers or less",
-                      isNumber: "Must be numbers",
+                      required: "Your phone number is required",
+                      minLength:
+                        "Your phone number must be at least 10 numbers",
+                      maxLength: "Your phone number must be 15 numbers or less",
+                      isNumber: "Input only numbers",
                     }}
                   />
                 </Col>
@@ -205,8 +209,8 @@ class Contact extends React.Component {
                     show="touched"
                     component="div"
                     messages={{
-                      required: "Required",
-                      validEmail: "invalid email address",
+                      required: "Your email address is required",
+                      validEmail: "That's an invalid email address",
                     }}
                   />
                 </Col>
