@@ -11,41 +11,55 @@ import {
   Modal,
   ModalHeader,
   ModalBody,
-  ModalFooter,
 } from "reactstrap";
-import { Control, LocalForm } from "react-redux-form";
+import { Control, LocalForm, Errors } from "react-redux-form";
 import { Link } from "react-router-dom";
+
+const required = (val) => val && val.length;
+const maxLength = (len) => (val) => !val || val.length <= len;
+const minLength = (len) => (val) => val && val.length >= len;
 
 class CommentForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalOpen: false,
+      isModalOpen: false,
       rating: "",
       author: "",
       text: "",
+      touched: {
+        rating: false,
+        author: false,
+        text: false,
+      },
     };
-    this.toggle = this.toggle.bind(this);
-    // this.handleSubmit = this.handleSubmit.bind(this);
+    this.toggleModal = this.toggleModal.bind(this);
   }
 
-  toggle() {
-    this.setState((prev) => ({ modalOpen: !prev.modalOpen }));
+  toggleModal() {
+    this.setState((prev) => ({ isModalOpen: !prev.isModalOpen }));
   }
 
   handleSubmit = (values) => {
     console.log(this.state.rating);
     alert(JSON.stringify(values));
+    console.log(JSON.stringify(values));
+    this.toggleModal();
   };
 
   render() {
     return (
       <div>
-        <Button outline color="secondary" onClick={this.toggle}>
+        <Button
+          className="mb-2"
+          outline
+          color="secondary"
+          onClick={this.toggleModal}
+        >
           <i className="fa fa-pencil fa-lg"></i> Submit Comment
         </Button>
-        <Modal isOpen={this.state.modalOpen} toggle={this.toggle}>
-          <ModalHeader toggle={this.toggle}>Submit Comment</ModalHeader>
+        <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
+          <ModalHeader toggle={this.toggleModal}>Submit Comment</ModalHeader>
           <ModalBody>
             <LocalForm onSubmit={(values) => this.handleSubmit(values)}>
               <Label htmlFor="rating">Rating</Label>
@@ -71,7 +85,22 @@ class CommentForm extends React.Component {
                   id="author"
                   name="author"
                   className="form-control"
-                ></Control.text>
+                  validators={{
+                    required,
+                    minLength: minLength(2),
+                    maxLength: maxLength(15),
+                  }}
+                />
+                <Errors
+                  className="text-danger"
+                  model=".author"
+                  show="touched"
+                  component="div"
+                  messages={{
+                    minLength: "Your name must be at least 2 characters long",
+                    maxLength: "Your name must be a maximum of 15 characters",
+                  }}
+                />
               </div>
               <Label htmlFor="text">Comment</Label>
               <div className="form-group">
