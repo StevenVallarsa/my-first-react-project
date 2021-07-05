@@ -33,12 +33,11 @@ class CommentForm extends React.Component {
         text: false,
       },
     };
-    this.toggleModal = this.toggleModal.bind(this);
   }
 
-  toggleModal() {
+  toggleModal = () => {
     this.setState((prev) => ({ isModalOpen: !prev.isModalOpen }));
-  }
+  };
 
   handleSubmit = (values) => {
     this.toggleModal();
