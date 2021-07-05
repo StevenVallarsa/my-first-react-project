@@ -23,7 +23,6 @@ export const Campsites = (
         ...state,
         isLoading: false,
         errorMessage: action.payload,
-        campsites: action.payload,
       };
     default:
       return state;
