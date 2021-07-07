@@ -8,7 +8,12 @@ import Contact from "./ContactComponent";
 import About from "./AboutComponent";
 import { Switch, Route, Redirect, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { addComment, fetchCampsites } from "../redux/ActionCreators";
+import {
+  addComment,
+  fetchCampsites,
+  fetchComments,
+  fetchPromotions,
+} from "../redux/ActionCreators";
 import { actions } from "react-redux-form";
 
 const mapDispatchToProps = {
@@ -16,6 +21,8 @@ const mapDispatchToProps = {
     addComment(campsiteId, rating, author, text),
   fetchCampsites: () => fetchCampsites(),
   resetFeedbackForm: () => actions.reset("feedbackForm"),
+  fetchComments: () => fetchComments(),
+  fetchPromotions: () => fetchPromotions(),
 };
 
 const mapStateToProps = (state) => {
@@ -29,6 +36,8 @@ const mapStateToProps = (state) => {
 class Main extends Component {
   componentDidMount() {
     this.props.fetchCampsites();
+    this.props.fetchComments();
+    this.props.fetchPromotions();
   }
 
   render() {
@@ -43,8 +52,12 @@ class Main extends Component {
           campsitesLoading={this.props.campsites.isLoading}
           campsitesErrorMessage={this.props.campsites.errorMessage}
           promotion={
-            this.props.promotions.filter((promotion) => promotion.featured)[0]
+            this.props.promotions.promotions.filter(
+              (promotion) => promotion.featured
+            )[0]
           }
+          promotionLoading={this.props.promotions.isLoading}
+          promotionsErrorMessage={this.props.promotions.errorMessage}
           partner={this.props.partners.filter((partner) => partner.featured)[0]}
         />
       );
@@ -60,9 +73,10 @@ class Main extends Component {
           }
           isLoading={this.props.campsites.isLoading}
           errorMessage={this.props.campsites.errorMessage}
-          comments={this.props.comments.filter(
+          comments={this.props.comments.comments.filter(
             (comment) => comment.campsiteId === +match.params.campsiteId
           )}
+          commentsErrorMessage={this.props.comments.errorMessage}
           addComment={this.props.addComment}
         />
       );
