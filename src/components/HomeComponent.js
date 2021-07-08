@@ -9,6 +9,7 @@ function RenderCard({ item, isLoading, errorMessage }) {
   if (errorMessage) {
     return <h4>{errorMessage}</h4>;
   }
+  console.log(baseUrl + item.image);
   return (
     <Card>
       <CardImg src={baseUrl + item.image} alt={item.name} />

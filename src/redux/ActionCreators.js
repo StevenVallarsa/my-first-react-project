@@ -107,8 +107,8 @@ export const fetchPromotions = () => (dispatch) => {
       }
     )
     .then((response) => response.json())
-    .then((comments) => dispatch(addComments(comments)))
-    .catch((error) => dispatch(campsitesFailed(error.message)));
+    .then((promotions) => dispatch(addPromotions(promotions)))
+    .catch((error) => dispatch(promotionsFailed(error.message)));
 };
 
 export const promotionsLoading = () => ({
