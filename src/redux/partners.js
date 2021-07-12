@@ -1,31 +1,35 @@
 import * as ActionTypes from "./ActionTypes";
 
-export const Partners = (state = {
-  isLoading: false,
-  errorMessage: null,
-  partners: [],
-},
-  action) => {
+export const Partners = (
+  state = {
+    isLoading: false,
+    errorMessage: null,
+    partners: [],
+  },
+  action
+) => {
   switch (action.type) {
     case ActionTypes.ADD_PARTNERS:
       return {
         ...state,
         isLoading: false,
         errorMessage: null,
-        partners: action.payload
-      }
+        partners: action.payload,
+      };
     case ActionTypes.PARTNERS_LOADING:
       return {
         ...state,
-        isLoading: true, errorMessage: null, promotions: []
-      }
+        isLoading: true,
+        errorMessage: null,
+        promotions: [],
+      };
     case ActionTypes.PARTNERS_FAILED:
       return {
         ...state,
         isLoading: false,
-        errorMessage: action.payload
-      }
+        errorMessage: action.payload,
+      };
     default:
       return state;
   }
-}
+};

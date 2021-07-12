@@ -40,10 +40,9 @@ class Contact extends React.Component {
   // const regPhone = /^1? ?[-(.\\/]?\d{3}[-).\\/ ]?[ ]?\d{3}[-.\\/ ]?\d{4}$/;
 
   handleSubmit = (values) => {
-    alert("Current state is: " + JSON.stringify(values));
-    console.log("Current state is: " + JSON.stringify(values));
+    this.props.postFeedback(values);
     this.props.resetFeedbackForm();
-  }
+  };
 
   render() {
     return (

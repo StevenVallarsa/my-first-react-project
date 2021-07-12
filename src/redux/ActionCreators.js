@@ -202,6 +202,35 @@ export const addPartners = (partners) => ({
   payload: partners,
 });
 
-export const postFeedback = (feedback) => ({
-  
-})
+// FEEDBACK
+
+export const postFeedback = (feedback) => () => {
+  return fetch(baseUrl + "feedback", {
+    method: "POST",
+    body: JSON.stringify(feedback),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then(
+      (response) => {
+        if (response.ok) {
+          alert(`Thank you for your feedback!\n${JSON.stringify(feedback)}`);
+          return response;
+        } else {
+          const error = new Error(
+            `Error ${response.status}: ${response.statusText}`
+          );
+          error.response = response;
+          throw error;
+        }
+      },
+      (error) => {
+        throw error;
+      }
+    )
+    .then((response) => response.json())
+    .catch((error) => {
+      alert("Your contact info did not get sent\nError: " + error.message);
+    });
+};

@@ -17,7 +17,7 @@ export const Campsites = (
         campsites: action.payload,
       };
     case ActionTypes.CAMPSITES_LOADING:
-      return { ...state, isLoading: true, error: null, campsites: [] };
+      return { ...state, isLoading: true, errorMessage: null, campsites: [] };
     case ActionTypes.CAMPSITES_FAILED:
       return {
         ...state,
